@@ -32,9 +32,11 @@ if (isset($_GET['search'])) {
     $users = array();
     $limit = 0;
     $offset = 0;
+    $groups = OC_Group::getUserGroups(OC_User::getUser());
     while ($count < 4 && count($users) == $limit) {
         $limit = 4 - $count;
-        $users = OC_User::getUsers($_GET['search'], $limit, $offset);
+        //$users = OC_User::getUsers($_GET['search'], $limit, $offset);
+	$users = OC_Group::DisplayNamesInGroups($groups, $_GET['search'], $limit, $offset);
         $offset += $limit;
         foreach ($users as $user) {
             if ((!isset($_GET['itemShares']) || !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) || !in_array($user, $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) && $user != OC_User::getUser()) {
